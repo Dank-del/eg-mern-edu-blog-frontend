@@ -44,7 +44,7 @@ export default function NavBar() {
           </div>
         </div>
         <br />
-        <div className="navbar-end">
+        {/* <div className="navbar-end">
           <div className="flex-none gap-2">
             <div className="form-control">
               <input
@@ -54,7 +54,7 @@ export default function NavBar() {
               />
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </Fragment>
   );

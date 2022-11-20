@@ -21,5 +21,4 @@ root.render(
       <Route path="/users/signup" element={<SignUp/>}/>
     </Routes>
   </BrowserRouter>,
-  rootElement
 );
