@@ -1,13 +1,17 @@
 import { useForm } from 'react-hook-form';
+import { useState } from 'react';
+import { useCookies } from 'react-cookie';
 
 export default function SignIn() {
+  const [ApiResp, setApiResp] = useState();
+  const [, setCookie] = useCookies(['user']);
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useForm();
   const onSubmit = (data) => {
-    fetch('https://edu-blog-api.sayan.org.in/api/accounts/signin', {
+    fetch('https://edu-blog-api.sayan.org.in/api/accounts/login', {
       method: 'POST',
       headers: {
         Accept: '*/*',
@@ -15,10 +19,16 @@ export default function SignIn() {
       },
       body: JSON.stringify(data),
     })
-      .then((res) => res.text())
+      .then((res) => res.json())
       .then((d) => {
-        console.log(d);
-      });
+        if (d.ok) {
+          setCookie('token', d.token, {
+            path: '/',
+          });
+        }
+        setApiResp(d.message);
+      })
+      .catch((e) => setApiResp(e));
     console.log(JSON.stringify(data));
   };
 
@@ -78,6 +88,7 @@ export default function SignIn() {
               />
             </label>
           </div>
+          {ApiResp && <p>{ApiResp}</p>}
           <button
             style={{
               marginTop: '15px',

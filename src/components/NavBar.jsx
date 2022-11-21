@@ -1,6 +1,27 @@
-import { Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
+import { useCookies } from 'react-cookie';
 
 export default function NavBar() {
+  const [cookies] = useCookies(['user']);
+  const [showNew, setShowNew] = useState(false);
+  const [UserData, setUserData] = useState(null);
+  useEffect(() => {
+    fetch('https://edu-blog-api.sayan.org.in/api/accounts/me', {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer: ${cookies['token']}`,
+      },
+    })
+      .then((data) => data.json())
+      .then((jsn) => {
+        if (jsn.username) {
+          // console.log(jsn);
+          setShowNew(true);
+          setUserData(jsn);
+        }
+      });
+  }, []);
+
   return (
     <Fragment>
       <div className="navbar bg-base-100">
@@ -33,7 +54,7 @@ export default function NavBar() {
                 <a href="/users/signup">Sign Up</a>
               </li>
               <li>
-                <a>About</a>
+                <a href="/users/profile">Profile</a>
               </li>
             </ul>
           </div>
@@ -44,17 +65,13 @@ export default function NavBar() {
           </div>
         </div>
         <br />
-        {/* <div className="navbar-end">
+        <div className="navbar-end">
           <div className="flex-none gap-2">
-            <div className="form-control">
-              <input
-                type="text"
-                placeholder="Search"
-                className="input input-bordered"
-              />
-            </div>
+            {showNew && (
+              <button className="btn">Post as @{UserData.username}</button>
+            )}
           </div>
-        </div> */}
+        </div>
       </div>
     </Fragment>
   );
