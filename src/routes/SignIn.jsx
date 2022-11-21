@@ -27,6 +27,7 @@ export default function SignIn() {
           });
         }
         setApiResp(d.message);
+        window.location.href = '/';
       })
       .catch((e) => setApiResp(e));
     console.log(JSON.stringify(data));

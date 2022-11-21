@@ -23,7 +23,8 @@ export default function Profile() {
           // console.log(jsn);
           setUserData(jsn);
         }
-      });
+      })
+      .catch((err) => (window.location.href = '/login'));
   }, []);
 
   useEffect(() => {

@@ -2,7 +2,7 @@ import { Fragment, useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 
 export default function NavBar() {
-  const [cookies] = useCookies(['user']);
+  const [cookies, setCookie, removeCookie] = useCookies(['user']);
   const [showNew, setShowNew] = useState(false);
   const [UserData, setUserData] = useState(null);
   useEffect(() => {
@@ -48,7 +48,19 @@ export default function NavBar() {
               className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
             >
               <li>
-                <a href="/users/signin">Login</a>
+                {!showNew ? (
+                  <a href="/users/signin">Login</a>
+                ) : (
+                  <a
+                    onClick={() =>
+                      removeCookie('token', {
+                        path: '/',
+                      })
+                    }
+                  >
+                    Logout
+                  </a>
+                )}
               </li>
               <li>
                 <a href="/users/signup">Sign Up</a>
