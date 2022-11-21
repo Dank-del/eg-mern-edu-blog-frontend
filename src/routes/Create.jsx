@@ -1,21 +1,58 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useCookies } from 'react-cookie';
 
 export default function Create() {
   const [ApiResp, setApiResp] = useState();
-  const [, setCookie] = useCookies(['user']);
+  const [cookies, setCookie] = useCookies(['user']);
+  const [imageBase64, setImageBase64] = useState('');
+  // const [UserData, setUserData] = useState(null);
+
+  function convertFileToBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      // Typescript users: use following line
+      // reader.onload = () => resolve(reader.result as string);
+      reader.onerror = reject;
+    });
+  }
+
+  const handleImageChange = async (e) => {
+    e.preventDefault();
+    if (e.target.files && e.target.files.length) {
+      try {
+        const uploadedImageBase64 = await convertFileToBase64(
+          e.target.files[0]
+        );
+        setImageBase64(uploadedImageBase64);
+        // console.log(uploadedImageBase64);
+        //do something with above data string
+      } catch (err) {
+        //handle error
+        console.log(err);
+      }
+    }
+  };
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useForm();
   const onSubmit = (data) => {
+    // data.user_id = UserData._id;
+    if (imageBase64 === '') {
+      alert('Provide image');
+      return;
+    }
+    data.image = imageBase64;
     fetch('https://edu-blog-api.sayan.org.in/api/blogs/new', {
       method: 'POST',
       headers: {
         Accept: '*/*',
         'Content-Type': 'application/json',
+        Authorization: `Bearer: ${cookies['token']}`,
       },
       body: JSON.stringify(data),
     })
@@ -26,11 +63,12 @@ export default function Create() {
             path: '/',
           });
         }
+        console.log(d);
         setApiResp(d.message);
         window.location.href = '/';
       })
       .catch((e) => setApiResp(e));
-    console.log(JSON.stringify(data));
+    // console.log(JSON.stringify(data));
   };
 
   return (
@@ -96,6 +134,7 @@ export default function Create() {
             </label>
             <div className="input-group">
               <input
+                onChange={handleImageChange}
                 type="file"
                 accept="image/*"
                 className="file-input file-input-bordered w-full max-w-xs"
