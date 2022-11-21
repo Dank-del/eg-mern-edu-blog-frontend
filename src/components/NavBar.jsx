@@ -80,7 +80,9 @@ export default function NavBar() {
         <div className="navbar-end">
           <div className="flex-none gap-2">
             {showNew && (
-              <button className="btn">Post as @{UserData.username}</button>
+              <a href='/blogs/new'>
+                <button className="btn">Post as @{UserData.username}</button>
+              </a>
             )}
           </div>
         </div>
