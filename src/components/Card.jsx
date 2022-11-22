@@ -1,15 +1,24 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import { useCookies } from 'react-cookie';
+import getMe from '../helpers/getMe';
 import getPoster from '../helpers/getPoster';
 
 export default function Card({ image, title, user_id, post_id, liked_by }) {
-  const [User, setUser] = useState(null);
-  console.log(liked_by);
+  const [Poster, setPoster] = useState(null);
+  //console.log(liked_by);
+  const [user, setUser] = useState(null);
   const [cookies] = useCookies(['user']);
+  const [, forceUpdate] = useReducer(x => x + 1, 0);
 
   const onLike = async () => {
+    const user = await getMe(cookies['token']);
     liked_by.map((id) => {
-      if (User._id === id) {
+      if (user._id === id) {
+        setLikeBtn(
+          <button onClick={onLike} className="btn btn-outline btn-warning">
+            Like
+          </button>
+        );
         fetch(
           `https://edu-blog-api.sayan.org.in/api/blogs/removelike/${post_id}`,
           {
@@ -19,6 +28,7 @@ export default function Card({ image, title, user_id, post_id, liked_by }) {
             },
           }
         ).then((res) => {
+          forceUpdate();
           if (res.status === 200) {
             setLikeBtn(
               <button onClick={onLike} className="btn btn-outline btn-warning">
@@ -39,7 +49,12 @@ export default function Card({ image, title, user_id, post_id, liked_by }) {
       }
     );
     if (res.status === 200) {
-      setLikeBtn(<button className="btn btn-warning">Liked</button>);
+      setLikeBtn(
+        <button onClick={onLike} className="btn btn-warning">
+          Liked
+        </button>
+      );
+      forceUpdate();
     } else {
       const data = await res.text();
       alert(data);
@@ -47,11 +62,19 @@ export default function Card({ image, title, user_id, post_id, liked_by }) {
   };
 
   useEffect(() => {
-    getPoster(user_id).then((data) => setUser(data));
-    liked_by.map((id) => {
-      if (id === user_id) {
-        setLikeBtn(<button className="btn btn-warning">Liked</button>);
-      }
+    getMe(cookies['token']).then((data) => setUser(data));
+    getPoster(user_id).then((data) => setPoster(data));
+    getMe(cookies['token']).then((data) => {
+      liked_by.map((id) => {
+        console.log(user);
+        if (id === data._id) {
+          setLikeBtn(
+            <button onClick={onLike} className="btn btn-warning">
+              Liked
+            </button>
+          );
+        }
+      });
     });
   }, []);
 
@@ -77,7 +100,7 @@ export default function Card({ image, title, user_id, post_id, liked_by }) {
             fontSize: '14px',
           }}
         >
-          Posted by {User && User.name}
+          Posted by {Poster && Poster.name}
         </p>
         <div className="grid grid-flow-col auto-cols-max card-actions justify-end">
           {/* <span
@@ -94,7 +117,7 @@ export default function Card({ image, title, user_id, post_id, liked_by }) {
           >
             thumb_up
           </span> */}
-          {User && likeBtn}
+          {user && likeBtn}
           <a href={`/blogs/${post_id}`}>
             <button className="btn btn-outline btn-warning">Open</button>
           </a>
