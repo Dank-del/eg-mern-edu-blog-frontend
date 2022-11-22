@@ -31,7 +31,7 @@ function Root() {
   return (
     <div>
       <div
-        className="grid grid-rows-4 grid-flow-col gap-4"
+        className="grid grid-rows-2 grid-flow-col gap-4"
         style={{ display: 'flex', justifyContent: 'center', margin: '10px' }}
       >
         {cards}

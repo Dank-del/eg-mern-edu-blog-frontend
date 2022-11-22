@@ -14,6 +14,7 @@ import Blog from './routes/Blog';
 const rootElement = document.getElementById('root');
 const root = createRoot(rootElement);
 
+
 root.render(
   <CookiesProvider>
     <BrowserRouter>

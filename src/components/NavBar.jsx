@@ -1,5 +1,6 @@
 import { Fragment, useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
+// import getMe from '../helpers/getMe';
 
 export default function NavBar() {
   const [cookies, setCookie, removeCookie] = useCookies(['user']);
@@ -20,6 +21,8 @@ export default function NavBar() {
           setUserData(jsn);
         }
       });
+
+    // getMe(cookies['token']).then((data) => console.log(data));
   }, []);
 
   return (
@@ -80,7 +83,7 @@ export default function NavBar() {
         <div className="navbar-end">
           <div className="flex-none gap-2">
             {showNew && (
-              <a href='/blogs/new'>
+              <a href="/blogs/new">
                 <button className="btn">Post as @{UserData.username}</button>
               </a>
             )}
