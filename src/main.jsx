@@ -9,6 +9,7 @@ import { createRoot } from 'react-dom/client';
 import SignIn from './routes/SignIn';
 import Profile from './routes/Profile';
 import Create from './routes/Create';
+import Blog from './routes/Blog';
 
 const rootElement = document.getElementById('root');
 const root = createRoot(rootElement);
@@ -22,7 +23,8 @@ root.render(
         <Route path="/users/signup" element={<SignUp />} />
         <Route path="/users/signin" element={<SignIn />} />
         <Route path="/users/profile" element={<Profile />} />
-        <Route path="/blogs/new" element={<Create/>}/>
+        <Route path="/blogs/new" element={<Create />} />
+        <Route path="/blogs/:id" element={<Blog />} />
       </Routes>
     </BrowserRouter>
   </CookiesProvider>

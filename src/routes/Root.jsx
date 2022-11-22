@@ -18,10 +18,11 @@ function Root() {
       data &&
         data.map((post) => (
           <Card
-            key={post.id}
+            key={post._id}
             image={post.image}
-            content={post.content}
+            user_id={post.user_id}
             title={post.title}
+            post_id={post._id}
           />
         ))
     );
