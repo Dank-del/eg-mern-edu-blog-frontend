@@ -23,6 +23,7 @@ function Root() {
             user_id={post.user_id}
             title={post.title}
             post_id={post._id}
+            liked_by={post.liked_by}
           />
         ))
     );
