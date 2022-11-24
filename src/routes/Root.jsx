@@ -1,11 +1,17 @@
 import { useState, useEffect } from 'react';
 import useSWR from 'swr';
+import { useCookies } from 'react-cookie';
 import '../App.css';
 import Card from '../components/Card';
 
-const fetcher = (url) => fetch(url).then((res) => res.json());
-
 function Root() {
+  const [cookies] = useCookies(['user']);
+  const fetcher = (url) =>
+    fetch(url, {
+      headers: {
+        Authorization: `Bearer: ${cookies['token']}`,
+      },
+    }).then((res) => res.json());
   const { data, error } = useSWR(
     'https://edu-blog-api.sayan.org.in/api/blogs',
     fetcher
