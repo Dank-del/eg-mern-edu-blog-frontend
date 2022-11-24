@@ -42,7 +42,12 @@ export default function Blog() {
   }, []);
 
   return (
-    <div>
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+      }}
+    >
       {post && (
         <div
           style={{
