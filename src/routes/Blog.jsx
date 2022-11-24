@@ -67,7 +67,10 @@ export default function Blog() {
           >
             {user && user._id === post.user_id && (
               <div>
-                <button className="btn btn-outline btn-warning">
+                <button
+                  onClick={() => (window.location.href = `/blogs/edit/${id}`)}
+                  className="btn btn-outline btn-warning"
+                >
                   Edit Post
                 </button>
                 <button

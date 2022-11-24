@@ -10,10 +10,10 @@ import SignIn from './routes/SignIn';
 import Profile from './routes/Profile';
 import Create from './routes/Create';
 import Blog from './routes/Blog';
+import Edit from './routes/Edit';
 
 const rootElement = document.getElementById('root');
 const root = createRoot(rootElement);
-
 
 root.render(
   <CookiesProvider>
@@ -26,6 +26,7 @@ root.render(
         <Route path="/users/profile" element={<Profile />} />
         <Route path="/blogs/new" element={<Create />} />
         <Route path="/blogs/:id" element={<Blog />} />
+        <Route path="/blogs/edit/:id" element={<Edit />} />
       </Routes>
     </BrowserRouter>
   </CookiesProvider>
