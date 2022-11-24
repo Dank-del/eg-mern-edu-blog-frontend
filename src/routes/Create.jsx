@@ -58,12 +58,12 @@ export default function Create() {
     })
       .then((res) => res.json())
       .then((d) => {
-        if (d.ok) {
-          setCookie('token', d.token, {
-            path: '/',
-          });
-        }
-        console.log(d);
+        // if (d.ok) {
+        //   setCookie('token', d.token, {
+        //     path: '/',
+        //   });
+        // }
+        // console.log(d);
         setApiResp(d.message);
         window.location.href = '/';
       })

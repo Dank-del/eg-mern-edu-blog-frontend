@@ -69,12 +69,12 @@ export default function Edit() {
     })
       .then((res) => res.json())
       .then((d) => {
-        if (d.ok) {
-          setCookie('token', d.token, {
-            path: '/',
-          });
-        }
-        console.log(d);
+        // if (d.ok) {
+        //   setCookie('token', d.token, {
+        //     path: '/',
+        //   });
+        // }
+        // console.log(d);
         setApiResp(d.message);
         window.location.href = '/';
       })
@@ -94,7 +94,7 @@ export default function Edit() {
             marginRight: '15px',
           }}
         >
-          Create Post
+          Edit Post
         </h1>
       </header>
       <div
