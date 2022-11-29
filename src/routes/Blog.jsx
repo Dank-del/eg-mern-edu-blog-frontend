@@ -27,7 +27,7 @@ export default function Blog() {
       const txt = await res.text();
       alert(`Error unapproving post: ${txt}`);
     } else {
-      alert('Post unapprove successfully');
+      alert('Post unapproved successfully');
       navigate(0);
     }
   };
@@ -141,7 +141,6 @@ export default function Blog() {
             }}
             className="btn-group"
           >
-            {user && user.admin && approvebtn}
             {user && user._id === post.user_id && (
               <div>
                 <button
@@ -158,6 +157,11 @@ export default function Blog() {
                 </button>
               </div>
             )}
+          </div>
+          <div
+            style={{ margin: '5px', display: 'flex', justifyContent: 'center' }}
+          >
+            {user && user.admin && approvebtn}
           </div>
           <div
             style={{
